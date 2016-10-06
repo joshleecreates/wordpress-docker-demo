@@ -1,8 +1,6 @@
+.git
 /.env
-/wp-content/uploads/
-/wp-content/upgrade/
-.DS_Store
-/.tmp
+/docker
 bower_components
 node_modules
 wp-includes
@@ -29,4 +27,3 @@ xmlrpc.php
 /index.php
 /wp-content/themes/index.php
 /wp-content/plugins/index.php
-wp-content/index.php
