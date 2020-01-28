@@ -1,15 +1,36 @@
-web:
-    image: wordpress
-    ports:
-     - "80:80"
-    links:
-     - mysql
-    volumes:
-     - ".:/var/www/html"
-mysql:
+version: '2'
+services:
+  db:
     image: mysql:5.7
     ports:
-     - "3306:3306"
+      - "3306:3306"
     environment:
-     - MYSQL_ROOT_PASSWORD=password
-     - MYSQL_DATABASE=wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_ROOT_PASSWORD: insecure
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: password
+  web:
+    image: wordpress:5.3.2-php7.2
+    depends_on:
+      - db
+    links:
+      - db:mysql
+    volumes:
+      - '.:/var/www/html'
+    ports:
+      - "80:80"
+    environment:
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress
+  wpcli:
+    image: tatemz/wp-cli
+    depends_on:
+      - db
+      - web
+    volumes_from:
+      - web
+    entrypoint: wp
+    command: "--info"
+    links:
+      - db:mysql
