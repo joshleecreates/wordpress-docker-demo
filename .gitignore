@@ -4,6 +4,7 @@
 /node_modules
 
 /wp-config.php
+.htaccess
 
 wp-cli.yml
 /license.txt
